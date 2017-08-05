@@ -51,7 +51,7 @@ public class SplashScreen extends AppCompatActivity {
                          Log.d("TAG", String.valueOf(userDAO.getAll()));
 
                     Log.d("TAG", String.valueOf(userDAO.check_login(response.body().getUsuario(),response.body().getSenha())));
-                     //animacaoLoad();
+                     animacaoLoad();
                 }
             }
 
