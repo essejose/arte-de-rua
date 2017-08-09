@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ArteDeRua</string>
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="loginBtn">Login</string>
+    <string name="welcomeIntro">Welcome</string>
 </resources>
