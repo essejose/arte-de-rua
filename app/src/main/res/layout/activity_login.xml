@@ -59,12 +59,18 @@
                 android:hint="@string/passwordHint"/>
 
         </android.support.design.widget.TextInputLayout>
-
+        <CheckBox
+            android:layout_marginTop="30dp"
+            android:text="@string/continuar_conectado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cbContinuar" />
         <Button
             android:id="@+id/btn"
             android:layout_marginTop="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="logar"
             android:text="@string/loginBtn"/>
 
     </LinearLayout>
