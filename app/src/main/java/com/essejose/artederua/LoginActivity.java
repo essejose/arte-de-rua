@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.essejose.artederua.dao.UserDAO;
 
 public class LoginActivity extends AppCompatActivity {
