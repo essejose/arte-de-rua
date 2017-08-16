@@ -8,11 +8,20 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.essejose.artederua.dao.UserDAO;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class LoginActivity extends AppCompatActivity {
+
+
+    CallbackManager callbackManager;
 
     UserDAO userDAO = new UserDAO(this);
     private EditText userName;
@@ -32,10 +41,54 @@ public class LoginActivity extends AppCompatActivity {
 
        // ler();
 
-        if(isConnected())
+         if(isConnected())
             initApp();
 
+
+
+
+        callbackManager = CallbackManager.Factory.create();
+        LoginButton loginButton = (LoginButton)
+                findViewById(R.id.login_button);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+
+                if (cbContinuar.isChecked()) {
+                    SharedPreferences sp = getPreferences(MODE_PRIVATE);
+                    SharedPreferences.Editor e = sp.edit();
+                    e.putBoolean("cbContinuar", cbContinuar.isChecked());
+                    // Toast.makeText(this, "Login realizado com sucesso, seus dados foram salvos", Toast.LENGTH_SHORT).show();
+                    initApp();
+                }else{
+                    initApp();
+                }
+                //Toast.makeText(LoginActivity.this,"Sucesso",Toast.LENGTH_LONG);
+
+            }
+
+            @Override
+            public void onCancel() {
+
+                //Toast.makeText(LoginActivity.this,"Cancel",Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+                //Toast.makeText(LoginActivity.this,"Error",Toast.LENGTH_LONG);
+            }
+        });
+
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     private boolean isConnected() {
         SharedPreferences sp = getPreferences(MODE_PRIVATE);
@@ -54,12 +107,14 @@ public class LoginActivity extends AppCompatActivity {
                 e.putString("userName", userName.getText().toString());
                 e.putString("passWord", passWord.getText().toString());
                 e.putBoolean("cbContinuar", cbContinuar.isChecked());
-                Toast.makeText(this, "Login realizado com sucesso, seus dados foram salvos", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this, "Login realizado com sucesso, seus dados foram salvos", Toast.LENGTH_SHORT).show();
+                initApp();
             } else {
                 e.putString("userName", "");
                 e.putString("passWord", "");
                 e.putBoolean("cbContinuar", false);
-                Toast.makeText(this, "Login realizado com sucesso ", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Login realizado com sucesso ", Toast.LENGTH_SHORT).show();
+                initApp();
             }
 
             e.apply();
