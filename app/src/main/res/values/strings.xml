@@ -15,5 +15,6 @@
     <string name="facebook_app_id">1463919503647427</string>
     <string name="fb_login_protocol_scheme">fb1463919503647427</string>
     <string name="action_logout">logout</string>
+    <string name="app_sub_logo">fotografe e compartilhe</string>
 
 </resources>

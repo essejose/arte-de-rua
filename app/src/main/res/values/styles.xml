@@ -15,10 +15,17 @@
     </style>
 
     <style name="splashScreenTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
         <item name="windowNoTitle">true</item>
     </style>
     <style name="logintheme" parent="splashScreenTheme">
+        <item name="colorPrimaryDark">@color/colorLoginText</item>
+        <item name="colorAccent">@color/colorLoginText</item>
+        <item name="colorControlNormal">@color/colorLoginText</item>
 
+        <item name="android:textColorHint">@color/colorLoginText</item>
+        <item name="android:textColor">@color/colorLoginText</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

@@ -2,11 +2,14 @@ package com.essejose.artederua;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -37,9 +40,16 @@ public class LoginActivity extends AppCompatActivity {
         passWord = (EditText) findViewById(R.id.password);
         cbContinuar = (CheckBox)  findViewById(R.id.cbContinuar);
 
+        TextInputLayout tx = (TextInputLayout)findViewById(R.id.usernameWrapper);
+        TextInputLayout txx = (TextInputLayout)findViewById(R.id.passwordWrapper);
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/UrbanJungleDEMO.otf");
+
+        tx.setTypeface(custom_font);
+        txx.setTypeface(custom_font);
+        cbContinuar.setTypeface(custom_font);
 
 
-       // ler();
+        // ler();
 
          if(isConnected())
             initApp();

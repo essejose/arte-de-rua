@@ -1,89 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#e3e3e3"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding= "5dp"
-    android:orientation="vertical">
 
-    <RelativeLayout
+    android:background="@drawable/screen_login"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="120dp"
+        android:padding="60dp"
+        android:layout_weight="0.68">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/welcomeIntro"
-            android:textSize="30sp"
-            android:textColor="#333333"/>
+            android:layout_weight="0.5"
+            android:orientation="vertical"
 
-    </RelativeLayout>
+            android:weightSum="1">
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/usernameWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:orientation="vertical">
+                <EditText
+                    android:textColor="@color/colorLoginText"
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/usernameHint"
+                    android:inputType="textEmailAddress" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/usernameWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/username"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/passwordWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/usernameHint"/>
+                android:layout_marginTop="4dp">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:textColor="@color/colorLoginText"
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/passwordHint"
+                    android:inputType="textPassword" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/passwordWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/password"
+            <CheckBox
+                android:id="@+id/cbContinuar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="@string/passwordHint"/>
+                android:layout_marginTop="30dp"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:text="@string/continuar_conectado" />
 
-        </android.support.design.widget.TextInputLayout>
-        <CheckBox
-            android:layout_marginTop="30dp"
-            android:text="@string/continuar_conectado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cbContinuar" />
-        <Button
-            android:id="@+id/btn"
-            android:layout_marginTop="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="logar"
-            android:text="@string/loginBtn"/>
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.21"
+                android:onClick="logar"
+                android:background="@color/colorPrimary"
+                android:textColor="#fff"
+                android:text="@string/loginBtn" />
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="30dp" />
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center" />
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
