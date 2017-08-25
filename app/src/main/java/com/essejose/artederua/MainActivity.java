@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,21 +78,52 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
             return true;
         }
 
         if (id == R.id.action_logout) {
 
+            logout();
 
-            Intent intent = new Intent(this, LoginActivity.class);
-            this.startActivity(intent);
-
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+    public void logout(){
+
+        SharedPreferences sp =  getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor e = sp.edit();
+        e.putBoolean("cbContinuar", false);
+        e.apply();
+
+
+        if (AccessToken.getCurrentAccessToken() == null) {
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            this.startActivity(intent);
+
+            return;
+        }
+
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                .Callback() {
+            @Override
+            public void onCompleted(GraphResponse graphResponse) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                LoginManager.getInstance().logOut();
+
+            }
+        }).executeAsync();
+
+
+
+
+        return;
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

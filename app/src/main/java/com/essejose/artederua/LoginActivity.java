@@ -1,5 +1,6 @@
 package com.essejose.artederua;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -65,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
 
                 if (cbContinuar.isChecked()) {
-                    SharedPreferences sp = getPreferences(MODE_PRIVATE);
+                    SharedPreferences sp =  getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
                     SharedPreferences.Editor e = sp.edit();
                     e.putBoolean("cbContinuar", cbContinuar.isChecked());
                     // Toast.makeText(this, "Login realizado com sucesso, seus dados foram salvos", Toast.LENGTH_SHORT).show();
@@ -101,17 +103,20 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private boolean isConnected() {
-        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        SharedPreferences sp = this.getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
         Boolean cbContinuar = sp.getBoolean("cbContinuar", false);
-
-        return false;
+        if (AccessToken.getCurrentAccessToken() != null) {
+            return true;
+        }
+        return cbContinuar;
     }
 
 
     public void logar (View v){
 
         if(isValidLogin()) {
-            SharedPreferences sp = getPreferences(MODE_PRIVATE);
+
+            SharedPreferences sp = this.getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor e = sp.edit();
             if (cbContinuar.isChecked()) {
                 e.putString("userName", userName.getText().toString());
