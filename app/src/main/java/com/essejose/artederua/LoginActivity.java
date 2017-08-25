@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sp = getPreferences(MODE_PRIVATE);
         Boolean cbContinuar = sp.getBoolean("cbContinuar", false);
 
-        return cbContinuar;
+        return false;
     }
 
 
