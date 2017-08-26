@@ -99,25 +99,32 @@ public class MainActivity extends AppCompatActivity
         e.putBoolean("cbContinuar", false);
         e.apply();
 
-
+        Log.i("TAG", String.valueOf(AccessToken.getCurrentAccessToken()));
         if (AccessToken.getCurrentAccessToken() == null) {
-
+            Log.i("TAG", "'x");
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             this.startActivity(intent);
-
+            finish();
             return;
+        }else{
+
+            new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                    .Callback() {
+                @Override
+                public void onCompleted(GraphResponse graphResponse) {
+                    LoginManager.getInstance().logOut();
+
+
+
+                }
+            }).executeAsync();
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
-        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
-                .Callback() {
-            @Override
-            public void onCompleted(GraphResponse graphResponse) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                LoginManager.getInstance().logOut();
 
-            }
-        }).executeAsync();
 
 
 
