@@ -75,13 +75,13 @@ public class EventDAO {
         if (cursor.moveToFirst()) {
             do {
                 event = new Event();
-                event.set_id(cursor.getInt( 1 ));
-                event.set_id_user(cursor.getInt(2));
-                event.setTitle(cursor.getString(3));
-                event.setDescripion(cursor.getString(4));
-                event.setImage(cursor.getString(5));
-                event.setLongitude(cursor.getDouble(6));
-                event.setLatiude(cursor.getDouble(7));
+                event.set_id(cursor.getInt( 0 ));
+                event.set_id_user(cursor.getInt(1));
+                event.setTitle(cursor.getString(2));
+                event.setDescripion(cursor.getString(3));
+                event.setImage(cursor.getString(4));
+                event.setLongitude(cursor.getDouble(5));
+                event.setLatiude(cursor.getDouble(6));
 
                 users.add(event);
                 Log.v("Cursor Object", DatabaseUtils.dumpCursorToString(cursor));

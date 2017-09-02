@@ -21,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.essejose.artederua.adpter.EventAdpter;
+import com.essejose.artederua.dao.EventDAO;
+import com.essejose.artederua.model.Event;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -75,9 +77,31 @@ public class MainActivity extends AppCompatActivity
         rvEvents.addItemDecoration(itemDecoration);
 
 
-        
+        carregaDados();
 
     }
+
+    private void carregaDados() {
+
+        EventDAO events  = new EventDAO(this);
+        Event fakeEvent = new Event();
+
+
+        fakeEvent.set_id(1);
+        fakeEvent.set_id_user(1);
+        fakeEvent.setTitle("Novo Registro");
+        fakeEvent.setDescripion("Novo  Description");
+        fakeEvent.setImage("blal/bllba");
+        fakeEvent.setLongitude(00.555);
+        fakeEvent.setLatiude(00.555);
+
+
+        events.add(fakeEvent);
+
+        EventAdpter.update(events.getAll());
+
+    }
+
 
     @Override
     public void onBackPressed() {
