@@ -105,10 +105,11 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isConnected() {
         SharedPreferences sp = this.getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
         Boolean cbContinuar = sp.getBoolean("cbContinuar", false);
-//        if (AccessToken.getCurrentAccessToken() != null) {
-//            return true;
-//        }
-        return cbContinuar;
+        if (AccessToken.getCurrentAccessToken() != null) {
+            return true;
+        }else{
+            return cbContinuar;
+        }
     }
 
 
