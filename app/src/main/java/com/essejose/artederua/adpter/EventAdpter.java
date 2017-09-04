@@ -19,13 +19,17 @@ import java.util.List;
 public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde> {
 
     private List<Event> events;
+    private OnItemClickListner listener;
 
-
-  /*  public LinhaAdpter(List<Linha> linhas, OnItemClickListner listener){
-        this.linhas = linhas;
+    public EventAdpter(List<Event> event,OnItemClickListner listener ){
+        this.events = event;
         this.listener = listener;
+    }
 
-    }*/
+    public EventAdpter() {
+
+    }
+
 
     @Override
     public EventViewHolde onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,7 +46,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
     }
 
     @Override
-    public void onBindViewHolder(EventViewHolde holder, int position) {
+    public void onBindViewHolder(EventViewHolde holder, final int position) {
 
         holder.tvTituloEvent.setText(events.get(position).getTitle());
         holder.tvDescriptionEvent.setText(events.get(position).getDescripion());
@@ -50,7 +54,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
         holder.itemView.setOnClickListener(new View.OnClickListener(){
 
              public void onClick(View v){
-                /*listener.onItemClick(linhas.get(position));*/
+                listener.OnItemClick(events.get(position));
 
             }
 

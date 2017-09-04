@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.essejose.artederua.adpter.EventAdpter;
+import com.essejose.artederua.adpter.OnItemClickListner;
 import com.essejose.artederua.dao.EventDAO;
 import com.essejose.artederua.model.Event;
 import com.facebook.AccessToken;
@@ -29,6 +30,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,10 +71,26 @@ public class MainActivity extends AppCompatActivity
 
         rvEvents = (RecyclerView) findViewById(R.id.rvEvents);
 
+
+
+        EAdpter = new EventAdpter(new ArrayList<Event>(),
+                new OnItemClickListner() {
+                    @Override
+                    public void OnItemClick(Event event) {
+                        Intent telamapa = new Intent(
+                                MainActivity.this,CriarFotoActivity.class
+                        );
+                        telamapa.putExtra("LINHA",event );
+
+                        startActivity(telamapa);
+                    }
+
+                });
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvEvents.setLayoutManager(layoutManager);
 
-        EAdpter = new EventAdpter();
+
         rvEvents.setAdapter(EAdpter);
 
         rvEvents.setHasFixedSize(true);
