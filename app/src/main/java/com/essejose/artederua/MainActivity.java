@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public RecyclerView rvEvents;
-    public EventAdpter EventAdpter;
+    public EventAdpter EAdpter;
 
     private static final String TAG = "MyActivity";
 
@@ -70,14 +70,23 @@ public class MainActivity extends AppCompatActivity
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvEvents.setLayoutManager(layoutManager);
-        rvEvents.setAdapter(EventAdpter);
+
+        EAdpter = new EventAdpter();
+        rvEvents.setAdapter(EAdpter);
+
         rvEvents.setHasFixedSize(true);
         RecyclerView.ItemDecoration itemDecoration
                 = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
 
         rvEvents.addItemDecoration(itemDecoration);
 
-        carregaDados();
+
+
+        EventDAO events  = new EventDAO(this);
+        EAdpter.update(events.getAll());
+
+
+        // carregaDados();
 
     }
 
@@ -87,19 +96,20 @@ public class MainActivity extends AppCompatActivity
         Event fakeEvent = new Event();
 
 
-        fakeEvent.set_id(2);
-        fakeEvent.set_id_user(2);
-        fakeEvent.setTitle("Novo Registro");
-        fakeEvent.setDescripion("Novo  Description");
-        fakeEvent.setImage("blal/bllba");
-        fakeEvent.setLongitude(00.555);
-        fakeEvent.setLatiude(00.555);
+//        fakeEvent.set_id(2);
+//        fakeEvent.set_id_user(2);
+//        fakeEvent.setTitle("Novo Registro");
+//        fakeEvent.setDescripion("Novo  Description");
+//        fakeEvent.setImage("blal/bllba");
+//        fakeEvent.setLongitude(00.555);
+//        fakeEvent.setLatiude(00.555);
+//
+//
+//        events.add(fakeEvent);
 
+       // Log.v("Cursor Object", String.valueOf(events.getAll()));
 
-        events.add(fakeEvent);
-
-        Log.v("Cursor Object", String.valueOf(fakeEvent));
-        EventAdpter.update(events.getAll());
+        EAdpter.update(events.getAll());
 
     }
 

@@ -66,7 +66,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
     @Override
     public int getItemCount() {
-        return 0;
+        return  events.size();
     }
 
     public class EventViewHolde extends RecyclerView.ViewHolder {
@@ -79,7 +79,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
         public EventViewHolde(View itemView) {
             super(itemView);
 
-            ivLogoEvent      = (ImageView) itemView.findViewById(R.id.ivLogoEvent);
+            //ivLogoEvent      = (ImageView) itemView.findViewById(R.id.ivLogoEvent);
             tvTituloEvent    = (TextView) itemView.findViewById(R.id.tvTituloEvent);
             tvDescriptionEvent = (TextView) itemView.findViewById(R.id.tvdescriptionEvent);
 
@@ -88,6 +88,6 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
     public  void update(List<Event> events){
         this.events = events;
-       // notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 }

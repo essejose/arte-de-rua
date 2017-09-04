@@ -84,7 +84,7 @@ public class EventDAO {
                 event.setLatiude(cursor.getDouble(6));
 
                 events.add(event);
-                Log.v("Cursor Object", DatabaseUtils.dumpCursorToString(cursor));
+            //    Log.v("Cursor Object", DatabaseUtils.dumpCursorToString(cursor));
             } while (cursor.moveToNext());
 
         }
