@@ -65,7 +65,7 @@ public class EventDAO {
     }
 
     public List<Event> getAll() {
-        List<Event> users = new LinkedList<>();
+        List<Event> events = new LinkedList<>();
         String rawQuery = "SELECT * FROM "+TABELA_EVENT;
 
         SQLiteDatabase db = banco .getReadableDatabase();
@@ -83,19 +83,19 @@ public class EventDAO {
                 event.setLongitude(cursor.getDouble(5));
                 event.setLatiude(cursor.getDouble(6));
 
-                users.add(event);
+                events.add(event);
                 Log.v("Cursor Object", DatabaseUtils.dumpCursorToString(cursor));
             } while (cursor.moveToNext());
 
         }
-        return users;
+        return events;
     }
 
     public boolean check_if_exist(Integer _id, Integer _id_user) {
 
         SQLiteDatabase db = banco.getWritableDatabase();
         String select = "SELECT * FROM "+TABELA_EVENT+
-                " WHERE "+COLUNA_ID+" ='" + _id + "' AND "+COLUNA_ID_USER+" ='" + _id_user + "'";
+                " WHERE "+COLUNA_ID+" =" + _id + " AND "+COLUNA_ID_USER+" =" + _id_user + "";
 
         Cursor c = db.rawQuery(select, null);
 

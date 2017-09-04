@@ -3,6 +3,7 @@ package com.essejose.artederua;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private RecyclerView rvEvents;
-    private EventAdpter EventAdpter;
+    public RecyclerView rvEvents;
+    public EventAdpter EventAdpter;
 
     private static final String TAG = "MyActivity";
 
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity
 
         rvEvents.addItemDecoration(itemDecoration);
 
-
         carregaDados();
 
     }
@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity
         Event fakeEvent = new Event();
 
 
-        fakeEvent.set_id(1);
-        fakeEvent.set_id_user(1);
+        fakeEvent.set_id(2);
+        fakeEvent.set_id_user(2);
         fakeEvent.setTitle("Novo Registro");
         fakeEvent.setDescripion("Novo  Description");
         fakeEvent.setImage("blal/bllba");
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity
 
         events.add(fakeEvent);
 
+        Log.v("Cursor Object", String.valueOf(fakeEvent));
         EventAdpter.update(events.getAll());
 
     }
