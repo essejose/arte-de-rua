@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ArteDeRua</string>
+    <string name="app_name">Arte De Rua</string>
     <string name="usernameHint">Username</string>
     <string name="passwordHint">Password</string>
     <string name="loginBtn">Login</string>

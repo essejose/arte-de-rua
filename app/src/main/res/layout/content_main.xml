@@ -10,6 +10,14 @@
     tools:showIn="@layout/app_bar_main">
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/ivTest"
+        />
+
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="368dp"
         android:layout_height="495dp"
@@ -18,12 +26,8 @@
         tools:layout_editor_absoluteX="8dp">
     </android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Button" />
+
+
 
 
 </LinearLayout>

@@ -1,15 +1,22 @@
 package com.essejose.artederua;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.DatabaseUtils;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.essejose.artederua.adpter.EventAdpter;
 import com.essejose.artederua.adpter.OnItemClickListner;
@@ -31,7 +39,16 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +60,17 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MyActivity";
 
+    static int TAKE_PICTURE = 1;
+    Bitmap bitMap;
+    Bitmap originalBitmap;
+    Bitmap resizedBitmap;
+    ImageView ivTest;
+    Bitmap _bitmap; // your bitmap
+
+
+    final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
+    String mCurrentPhotoPath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +78,28 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+        File newdir = new File(dir);
+        newdir.mkdirs();
+
+
+        ivTest = (ImageView) findViewById(R.id.ivTest);
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+
+
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+
+
+
+                captureImage();
             }
         });
 
@@ -78,7 +122,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void OnItemClick(Event event) {
                         Intent telamapa = new Intent(
-                                MainActivity.this,CriarFotoActivity.class
+                                MainActivity.this,FotoActivity.class
                         );
                         telamapa.putExtra("LINHA",event );
 
@@ -109,6 +153,96 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+
+    private void captureImage() {
+
+
+        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
+//
+//        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        // start camera activity
+//        startActivityForResult(cameraIntent, TAKE_PICTURE);
+
+
+        File newfile = new File(file);
+
+            try {
+                newfile.createNewFile();
+            } catch (IOException e) {}
+
+            Uri outputFileUri =  FileProvider.getUriForFile(MainActivity.this,
+                    BuildConfig.APPLICATION_ID + ".provider",newfile);
+
+
+        mCurrentPhotoPath = "file:" + newfile.getAbsolutePath();
+
+        ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.TITLE, "New Picture");
+            values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+            values.put("u", String.valueOf(outputFileUri));
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+        startActivityForResult(cameraIntent, TAKE_PICTURE);
+
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (requestCode == TAKE_PICTURE && resultCode== RESULT_OK && intent != null){
+            // get bundle
+            Bundle extras = intent.getExtras();
+
+            Uri imageUri = Uri.parse(mCurrentPhotoPath);
+
+           // File file = new File(imageUri.getPath());
+
+
+            Log.d("Tag", String.valueOf(mCurrentPhotoPath));
+
+            File file = new File(imageUri.getPath());
+            try {
+                InputStream ims = new FileInputStream(file);
+                ivTest.setImageBitmap(BitmapFactory.decodeStream(ims));
+            } catch (FileNotFoundException e) {
+                return;
+            }
+
+
+            // get
+
+//            bitMap  = (Bitmap) extras.get("data");
+//
+////            resizedBitmap = Bitmap.createScaledBitmap(
+////                    bitMap, 400,400, true);
+////
+//
+//            if(intent.hasExtra("uri")) {
+//
+//                Log.d("Tag", "tem name");
+//
+//            }
+//
+//          //  ivTest.setImageBitmap(bitMap);
+//
+//            Intent fotoActivty = new Intent( this, FotoActivity.class);
+//            fotoActivty.putExtra("Foto",bitMap );
+//            fotoActivty.putExtra("uri",imageUri);
+//
+//            this.startActivity(fotoActivty);
+
+            //bitMap.recycle();
+
+
+
+        }
+    }
     private void carregaDados() {
 
         EventDAO events  = new EventDAO(this);
@@ -126,7 +260,7 @@ public class MainActivity extends AppCompatActivity
 //
 //        events.add(fakeEvent);
 
-       // Log.v("Cursor Object", String.valueOf(events.getAll()));
+        // Log.v("Cursor Object", String.valueOf(events.getAll()));
 
         EAdpter.update(events.getAll());
 
