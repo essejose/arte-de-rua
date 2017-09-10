@@ -1,6 +1,9 @@
 package com.essejose.artederua.adpter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +12,9 @@ import android.widget.TextView;
 
 import com.essejose.artederua.R;
 import com.essejose.artederua.model.Event;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -20,10 +25,12 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
     private List<Event> events;
     private OnItemClickListner listener;
+    private Context context;
 
-    public EventAdpter(List<Event> event,OnItemClickListner listener ){
+    public EventAdpter(Context context,List<Event> event,OnItemClickListner listener ){
         this.events = event;
         this.listener = listener;
+        this.context = context;
     }
 
     public EventAdpter() {
@@ -45,8 +52,26 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
     }
 
+
     @Override
     public void onBindViewHolder(EventViewHolde holder, final int position) {
+
+
+        Log.d("Vindo do banco ",events.get(position).getImage());
+
+
+        File file = new File(events.get(position).getImage());
+        Log.d("Vindo do banco file ", String.valueOf(file));
+
+
+
+        Picasso.with(context).load("file://"+ events.get(position).getImage())
+                .config(Bitmap.Config.RGB_565)
+                .fit()
+                .centerCrop()
+                .placeholder(android.R.drawable.ic_menu_camera)
+                .error(android.R.drawable.stat_notify_error)
+                .into(holder.ivLogoEvent);
 
         holder.tvTituloEvent.setText(events.get(position).getTitle());
         holder.tvDescriptionEvent.setText(events.get(position).getDescripion());
@@ -83,7 +108,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
         public EventViewHolde(View itemView) {
             super(itemView);
 
-            //ivLogoEvent      = (ImageView) itemView.findViewById(R.id.ivLogoEvent);
+            ivLogoEvent      = (ImageView) itemView.findViewById(R.id.ivLogoEvent);
             tvTituloEvent    = (TextView) itemView.findViewById(R.id.tvTituloEvent);
             tvDescriptionEvent = (TextView) itemView.findViewById(R.id.tvdescriptionEvent);
 

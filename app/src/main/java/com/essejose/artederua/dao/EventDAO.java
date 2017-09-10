@@ -35,10 +35,10 @@ public class EventDAO {
 
     public String add(Event event){
         long resultado;
-        if(!check_if_exist(event.get_id(), event.get_id_user())){
+       // if(!check_if_exist(event.get_id(), event.get_id_user())){
             SQLiteDatabase db = banco.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put( COLUNA_ID , event.get_id());
+          //  values.put( COLUNA_ID , event.get_id());
             values.put( COLUNA_ID_USER , event.get_id_user());
             values.put( COLUNA_TITLE , event.getTitle());
             values.put( COLUNA_DESCRIION , event.getDescripion());
@@ -60,8 +60,60 @@ public class EventDAO {
                 return "Registro inserido com sucesso de evento" ;
 
             }
+        //}
+       // return "Já existe no banco";
+    }
+
+    public String updade(Event event){
+
+        long resultado;
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // values.put( COLUNA_ID , event.get_id());
+       // values.put( COLUNA_ID_USER , event.get_id_user());
+        values.put( COLUNA_TITLE , event.getTitle());
+        values.put( COLUNA_DESCRIION , event.getDescripion());
+        values.put( COLUNA_IMAGE , event.getImage());
+        values.put( COLUNA_LATIUDE , event.getLatiude());
+        values.put( COLUNA_LONITUDE , event.getLongitude());
+
+
+        resultado = db.update( TABELA_EVENT , values,"_id="+event.get_id(), null);
+        db.close();
+
+        if (resultado == - 1 ) {
+            Log.i("TAG","erro no updade");
+            return "Erro ao no updade" ;
+        } else {
+            Log.i("TAG","Sucesso no updade");
+            return "Sucesso no updade" ;
+
         }
-        return "Já existe no banco";
+
+
+
+    };
+
+    public String delete(Event event){
+
+        long resultado;
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        resultado = db.delete(TABELA_EVENT , "_id="+event.get_id(), null);
+        db.close();
+
+        if (resultado == - 1 ) {
+            Log.i("TAG","Erro ao Deletar");
+            return "Erro ao Deletar" ;
+        } else {
+            Log.i("TAG","Registro Deletado");
+            return "Registro Deletado" ;
+
+        }
     }
 
     public List<Event> getAll() {
@@ -88,6 +140,8 @@ public class EventDAO {
             } while (cursor.moveToNext());
 
         }
+
+        db.close();
         return events;
     }
 

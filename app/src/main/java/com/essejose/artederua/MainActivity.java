@@ -60,16 +60,12 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MyActivity";
 
-    static int TAKE_PICTURE = 1;
-    Bitmap bitMap;
-    Bitmap originalBitmap;
-    Bitmap resizedBitmap;
-    ImageView ivTest;
-    Bitmap _bitmap; // your bitmap
 
 
     final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
-    String mCurrentPhotoPath;
+
+    ImageView ivTest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +80,6 @@ public class MainActivity extends AppCompatActivity
         newdir.mkdirs();
 
 
-        ivTest = (ImageView) findViewById(R.id.ivTest);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -117,14 +112,14 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        EAdpter = new EventAdpter(new ArrayList<Event>(),
+        EAdpter = new EventAdpter(getApplicationContext(),new ArrayList<Event>(),
                 new OnItemClickListner() {
                     @Override
                     public void OnItemClick(Event event) {
                         Intent telamapa = new Intent(
                                 MainActivity.this,FotoActivity.class
                         );
-                        telamapa.putExtra("LINHA",event );
+                        telamapa.putExtra("EVENT",event );
 
                         startActivity(telamapa);
                     }
@@ -149,7 +144,7 @@ public class MainActivity extends AppCompatActivity
         EAdpter.update(events.getAll());
 
 
-        // carregaDados();
+          carregaDados();
 
     }
 
@@ -157,92 +152,13 @@ public class MainActivity extends AppCompatActivity
 
     private void captureImage() {
 
-
-        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
-//
-//        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        // start camera activity
-//        startActivityForResult(cameraIntent, TAKE_PICTURE);
-
-
-        File newfile = new File(file);
-
-            try {
-                newfile.createNewFile();
-            } catch (IOException e) {}
-
-            Uri outputFileUri =  FileProvider.getUriForFile(MainActivity.this,
-                    BuildConfig.APPLICATION_ID + ".provider",newfile);
-
-
-        mCurrentPhotoPath = "file:" + newfile.getAbsolutePath();
-
-        ContentValues values = new ContentValues();
-            values.put(MediaStore.Images.Media.TITLE, "New Picture");
-            values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-            values.put("u", String.valueOf(outputFileUri));
-            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-
-        startActivityForResult(cameraIntent, TAKE_PICTURE);
-
-
+        Intent fotoActivty = new Intent( this, FotoActivity.class);
+        this.startActivity(fotoActivty);
+        finish();
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
 
-        if (requestCode == TAKE_PICTURE && resultCode== RESULT_OK && intent != null){
-            // get bundle
-            Bundle extras = intent.getExtras();
-
-            Uri imageUri = Uri.parse(mCurrentPhotoPath);
-
-           // File file = new File(imageUri.getPath());
-
-
-            Log.d("Tag", String.valueOf(mCurrentPhotoPath));
-
-            File file = new File(imageUri.getPath());
-            try {
-                InputStream ims = new FileInputStream(file);
-                ivTest.setImageBitmap(BitmapFactory.decodeStream(ims));
-            } catch (FileNotFoundException e) {
-                return;
-            }
-
-
-            // get
-
-//            bitMap  = (Bitmap) extras.get("data");
-//
-////            resizedBitmap = Bitmap.createScaledBitmap(
-////                    bitMap, 400,400, true);
-////
-//
-//            if(intent.hasExtra("uri")) {
-//
-//                Log.d("Tag", "tem name");
-//
-//            }
-//
-//          //  ivTest.setImageBitmap(bitMap);
-//
-//            Intent fotoActivty = new Intent( this, FotoActivity.class);
-//            fotoActivty.putExtra("Foto",bitMap );
-//            fotoActivty.putExtra("uri",imageUri);
-//
-//            this.startActivity(fotoActivty);
-
-            //bitMap.recycle();
-
-
-
-        }
-    }
     private void carregaDados() {
 
         EventDAO events  = new EventDAO(this);
@@ -292,10 +208,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
 
-            return true;
-        }
 
         if (id == R.id.action_logout) {
 

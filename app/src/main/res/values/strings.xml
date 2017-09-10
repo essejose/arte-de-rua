@@ -5,7 +5,7 @@
     <string name="loginBtn">Login</string>
     <string name="welcomeIntro">Welcome</string>
     <string name="continuar_conectado">Continuar conectado</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Activity Feed</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,7 +14,12 @@
 
     <string name="facebook_app_id">1463919503647427</string>
     <string name="fb_login_protocol_scheme">fb1463919503647427</string>
-    <string name="action_logout">logout</string>
-    <string name="app_sub_logo">fotografe e compartilhe</string>
+    <string name="action_logout">Logout</string>
+    <string name="app_sub_logo">Fotografe e compartilhe</string>
+    <string name="salveEvent">Save</string>
+    <string name="register_foto_activity_title">Register Foto</string>
+    <string name="userTitleRegister">Title</string>
+    <string name="userDescriptionRegister">Description</string>
+    <string name="deletedEvent">Delete</string>
 
 </resources>
