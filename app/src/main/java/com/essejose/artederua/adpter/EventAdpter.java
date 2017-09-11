@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -83,6 +84,30 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
             }
 
+        });
+
+        holder.btnMap.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View v){
+                listener.OnItemClick2(events.get(position));
+            }
+
+        });
+
+
+        holder.btnEdit.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View v){
+                listener.OnItemClick3(events.get(position));
+            }
+
+        });
+
+        holder.btnShare.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View v){
+                listener.shareFacebook(events.get(position));
+            }
 
         });
 
@@ -103,7 +128,9 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
         public ImageView ivLogoEvent;
         public TextView tvTituloEvent;
         public TextView tvDescriptionEvent;
-
+        public Button btnEdit;
+        public Button btnMap;
+        public Button btnShare;
 
         public EventViewHolde(View itemView) {
             super(itemView);
@@ -111,7 +138,9 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
             ivLogoEvent      = (ImageView) itemView.findViewById(R.id.ivLogoEvent);
             tvTituloEvent    = (TextView) itemView.findViewById(R.id.tvTituloEvent);
             tvDescriptionEvent = (TextView) itemView.findViewById(R.id.tvdescriptionEvent);
-
+            btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
+            btnMap = (Button) itemView.findViewById(R.id.btnMap);
+            btnShare = (Button) itemView.findViewById(R.id.btnShare);
         }
     }
 

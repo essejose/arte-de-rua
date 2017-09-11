@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.essejose.artederua.adpter.EventAdpter;
 import com.essejose.artederua.adpter.OnItemClickListner;
@@ -38,6 +40,8 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
@@ -58,10 +63,10 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView rvEvents;
     public EventAdpter EAdpter;
 
+
+    TextView tvName1;
+    TextView tvName2;
     private static final String TAG = "MyActivity";
-
-
-
     final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
 
     ImageView ivTest;
@@ -76,8 +81,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        File newdir = new File(dir);
-        newdir.mkdirs();
+//        File newdir = new File(dir);
+//        newdir.mkdirs();
+//
 
 
 
@@ -86,13 +92,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-
-
 
                 captureImage();
             }
@@ -107,21 +106,78 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View hView =  navigationView.getHeaderView(0);
+        tvName1 = (TextView)hView.findViewById(R.id.tvName);
+        tvName2 = (TextView)hView.findViewById(R.id.tvName2);
+
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/UrbanJungleDEMO.otf");
+
+
+        SharedPreferences preferences =
+                getSharedPreferences("ARTEDERUAinfo", MODE_PRIVATE);
+
+        tvName1.setTypeface(custom_font);
+        String name = preferences.getString("userName", "");
+        String email = preferences.getString("email", "");
+        tvName1.setText(name);
+        tvName2.setText(email);
+
 
         rvEvents = (RecyclerView) findViewById(R.id.rvEvents);
-
 
 
         EAdpter = new EventAdpter(getApplicationContext(),new ArrayList<Event>(),
                 new OnItemClickListner() {
                     @Override
                     public void OnItemClick(Event event) {
+
+
                         Intent telamapa = new Intent(
-                                MainActivity.this,FotoActivity.class
+                                MainActivity.this,FullImageActivity.class
+
                         );
                         telamapa.putExtra("EVENT",event );
 
                         startActivity(telamapa);
+                    }
+
+                    @Override
+                    public void OnItemClick2(Event event) {
+
+                        Intent telamapa = new Intent(
+                                // MainActivity.this,FotoActivity.class
+                                MainActivity.this,MapsActivity.class
+                        );
+                        telamapa.putExtra("EVENT",event );
+
+                        startActivity(telamapa);
+
+                    }
+
+                    @Override
+                    public void OnItemClick3(Event event) {
+
+                        Intent telamapa = new Intent(
+                                MainActivity.this,FotoActivity.class
+
+                        );
+                        telamapa.putExtra("EVENT",event );
+
+                        startActivity(telamapa);
+
+
+                    }
+
+                    @Override
+                    public void shareFacebook(Event event) {
+
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, " ");
+                        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.fromFile(new File(event.getImage())));
+                        shareIntent.setType("image/jpeg");
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent, "send"));
                     }
 
                 });
@@ -153,8 +209,7 @@ public class MainActivity extends AppCompatActivity
     private void captureImage() {
 
         Intent fotoActivty = new Intent( this, FotoActivity.class);
-        this.startActivity(fotoActivty);
-        finish();
+        startActivity(fotoActivty);
 
     }
 
@@ -225,13 +280,15 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sp =  getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor e = sp.edit();
         e.putBoolean("cbContinuar", false);
+        e.putString("email", "");
+        e.putString("userName", "");
         e.apply();
 
         Log.i("TAG", String.valueOf(AccessToken.getCurrentAccessToken()));
         if (AccessToken.getCurrentAccessToken() == null) {
             Log.i("TAG", "'x");
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            this.startActivity(intent);
+            startActivity(intent);
             finish();
             return;
         }else{
@@ -243,13 +300,13 @@ public class MainActivity extends AppCompatActivity
                     LoginManager.getInstance().logOut();
 
 
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
 
                 }
             }).executeAsync();
 
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
         }
 
 
@@ -266,16 +323,22 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            captureImage();
+         } else if (id == R.id.nav_galery) {
 
-        } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            Uri uri = Uri.parse(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+            intent.setDataAndType(uri, "*/*");
+            startActivity(Intent.createChooser(intent, "Open folder"));
 
-        } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+//        } else if (id == R.id.nav_slideshow) {
+//
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
 
         }
 

@@ -13,7 +13,7 @@
         <ImageView
             android:id="@+id/ivLogoEvent"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="300dp"
             android:cropToPadding="false"
             android:scaleType="centerCrop" />
         <LinearLayout
@@ -34,6 +34,38 @@
                 android:id="@+id/tvdescriptionEvent"
                 android:textColor="#555" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btnEdit"
+                android:textSize="13dp"
+                android:id="@+id/btnEdit"
+                android:theme="@style/PrimaryFlatButton"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/BtnMap"
+                android:textSize="13dp"
+                android:id="@+id/btnMap"
+                android:theme="@style/PrimaryFlatButton"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btnShare"
+                android:id="@+id/btnShare"
+                android:textSize="13dp"
+                android:theme="@style/PrimaryFlatButton"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

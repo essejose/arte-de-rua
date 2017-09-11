@@ -1,41 +1,35 @@
 package com.essejose.artederua;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.essejose.artederua.dao.EventDAO;
 import com.essejose.artederua.model.Event;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.R.attr.bitmap;
-import static com.essejose.artederua.R.id.imageView;
 
 public class FotoActivity extends AppCompatActivity {
 
@@ -51,7 +45,11 @@ public class FotoActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
 
 
+    private LocationManager locationManager;
+    private String provider;
     private Event event;
+    private double lat;
+    private double lng;
 
     final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Arte/";
 
@@ -67,6 +65,21 @@ public class FotoActivity extends AppCompatActivity {
 
         etitle =  (EditText) findViewById(R.id.etitle);
         etdescription =  (EditText) findViewById(R.id.etdescription);
+
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        if (location != null) {
+            System.out.println("Provider " + provider + " has been selected.");
+            onLocationChanged(location);
+        } else {
+            Log.d("Localizacao","nao diposnivel");
+        }
 
 
         if(getIntent().hasExtra("EVENT")){
@@ -134,6 +147,23 @@ public class FotoActivity extends AppCompatActivity {
     }
 
 
+    public void onLocationChanged(Location location) {
+         lat = (location.getLatitude());
+         lng =  (location.getLongitude());
+
+    }
+
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Enabled new provider " + provider,
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(this, "Disabled provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
 
     private void  criarImage(){
 
@@ -164,6 +194,7 @@ public class FotoActivity extends AppCompatActivity {
         String imageFileName = timeStamp + ".jpg";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
+
         mCurrentPhotoPath = storageDir.getAbsolutePath() + "/" + imageFileName;
 
         File file = new File(mCurrentPhotoPath);
@@ -233,8 +264,8 @@ public class FotoActivity extends AppCompatActivity {
         newEvent.setTitle(etitle.getText().toString());
         newEvent.setDescripion(etdescription.getText().toString());
         newEvent.setImage(mCurrentPhotoPath);
-        newEvent.setLongitude(00.555);
-        newEvent.setLatiude(00.555);
+        newEvent.setLongitude(lat);
+        newEvent.setLatiude(lng);
 
         if(getIntent().hasExtra("EVENT")){
 
@@ -254,15 +285,29 @@ public class FotoActivity extends AppCompatActivity {
   }
 
     private void deleteEvent() {
-        EventDAO events  = new EventDAO(this);
-        Event deleteEvent = new Event();
 
-        deleteEvent.set_id(event.get_id());
-        events.delete(deleteEvent);
+        final EventDAO events  = new EventDAO(this);
+        new AlertDialog.Builder(this)
+                .setTitle("Deletando imagem")
+                .setMessage("Tem certeza que deseja deletar essa linda imagem?")
+                .setPositiveButton("sim",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-        Intent mainback = new Intent( this, MainActivity.class);
-        this.startActivity(mainback);
-        finish();
+
+                                Event deleteEvent = new Event();
+
+                                deleteEvent.set_id(event.get_id());
+                                events.delete(deleteEvent);
+
+                                Intent mainback = new Intent( FotoActivity.this, MainActivity.class);
+                                startActivity(mainback);
+                                finish();
+                            }
+                        })
+                .setNegativeButton("não", null)
+                .show();
 
 
     }

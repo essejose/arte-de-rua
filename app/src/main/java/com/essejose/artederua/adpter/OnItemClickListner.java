@@ -8,4 +8,7 @@ import com.essejose.artederua.model.Event;
 
 public interface OnItemClickListner {
     void OnItemClick(Event event);
+    void OnItemClick2(Event event);
+    void OnItemClick3(Event event);
+    void  shareFacebook(Event event);
 }

@@ -46,7 +46,8 @@ public class EventDAO {
             values.put( COLUNA_LATIUDE , event.getLatiude());
             values.put( COLUNA_LONITUDE , event.getLongitude());
 
-
+           Log.i("getLatiude", String.valueOf(event.getLatiude()));
+        Log.i("getLatiude", String.valueOf(event.getLongitude()));
             resultado = db.insert( TABELA_EVENT ,
                     null ,
                     values);
@@ -87,8 +88,8 @@ public class EventDAO {
             Log.i("TAG","erro no updade");
             return "Erro ao no updade" ;
         } else {
-            Log.i("TAG","Sucesso no updade");
-            return "Sucesso no updade" ;
+            Log.i("TAG","Sucesso");
+            return "Registro inserido com sucesso de evento" ;
 
         }
 

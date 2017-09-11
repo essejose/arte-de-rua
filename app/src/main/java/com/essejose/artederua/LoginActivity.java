@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,10 +19,20 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.essejose.artederua.dao.UserDAO;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -62,19 +73,15 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton)
                 findViewById(R.id.login_button);
+        loginButton.setReadPermissions("public_profile email");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                if (cbContinuar.isChecked()) {
-                    SharedPreferences sp =  getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor e = sp.edit();
-                    e.putBoolean("cbContinuar", cbContinuar.isChecked());
-                    // Toast.makeText(this, "Login realizado com sucesso, seus dados foram salvos", Toast.LENGTH_SHORT).show();
-                    initApp();
-                }else{
-                    initApp();
-                }
+
+                executeGraphRequest(loginResult.getAccessToken().getUserId());
+
+
                 //Toast.makeText(LoginActivity.this,"Sucesso",Toast.LENGTH_LONG);
 
             }
@@ -92,6 +99,54 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    private void executeGraphRequest(final String userId){
+        GraphRequest request =new GraphRequest(AccessToken.getCurrentAccessToken(), userId, null, HttpMethod.GET, new GraphRequest.Callback() {
+            @Override
+            public void onCompleted(GraphResponse response) {
+
+
+
+
+                try {
+                    Log.i("FACEBOOK", (String) response.getJSONObject().get("name"));
+                    Log.i("FACEBOOK", (String) response.getJSONObject().get("email"));
+
+                    SharedPreferences sp =  getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor e = sp.edit();
+
+                    e.putString("email", (String) response.getJSONObject().get("email"));
+                    e.putString("userName", (String) response.getJSONObject().get("name"));
+
+                    if (cbContinuar.isChecked()) {
+
+                        e.putBoolean("cbContinuar", cbContinuar.isChecked());
+
+                        initApp();
+                    }else{
+
+
+                        initApp();
+                    }
+
+                    e.apply();
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("FACEBOOK", String.valueOf(response.getJSONObject()));
+            }
+        });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "name,id, email");
+        request.setParameters(parameters);
+        request.executeAsync();
 
     }
 
@@ -119,15 +174,18 @@ public class LoginActivity extends AppCompatActivity {
 
             SharedPreferences sp = this.getSharedPreferences("ARTEDERUAinfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor e = sp.edit();
+
+            e.putString("userName", userName.getText().toString());
+            e.putString("passWord", passWord.getText().toString());
+            e.putString("email", "");
+
             if (cbContinuar.isChecked()) {
-                e.putString("userName", userName.getText().toString());
-                e.putString("passWord", passWord.getText().toString());
+
                 e.putBoolean("cbContinuar", cbContinuar.isChecked());
                // Toast.makeText(this, "Login realizado com sucesso, seus dados foram salvos", Toast.LENGTH_SHORT).show();
                 initApp();
             } else {
-                e.putString("userName", "");
-                e.putString("passWord", "");
+
                 e.putBoolean("cbContinuar", false);
                 //Toast.makeText(this, "Login realizado com sucesso ", Toast.LENGTH_SHORT).show();
                 initApp();
