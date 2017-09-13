@@ -80,8 +80,8 @@
         </activity>
         <activity
             android:name=".FotoActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/register_foto_activity_title" />
+            android:label="@string/register_foto_activity_title"
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -97,8 +97,10 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".FullImageActivity"
-            android:theme="@style/splashScreenTheme"/>
+        <activity
+            android:name=".FullImageActivity"
+            android:theme="@style/splashScreenTheme" />
+        <activity android:name=".AboutActivity"></activity>
     </application>
 
 </manifest>
