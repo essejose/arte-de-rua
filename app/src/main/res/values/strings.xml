@@ -29,7 +29,8 @@
     <string name="see_album">Recents photos</string>
     <string name="about">About</string>
     <string name="see_more">See more</string>
-    <string name="telDev">11965886824</string>
-    <string name="telDevLabel">call me</string>
+    <string name="telDev">965886824</string>
+    <string name="telDevLabel">tap and call me</string>
+    <string name="devApp">Dev Jose Freire Pereira</string>
 
 </resources>

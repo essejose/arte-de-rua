@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences preferences =
                 getSharedPreferences("ARTEDERUAinfo", MODE_PRIVATE);
 
-        tvName1.setTypeface(custom_font);
+
         String name = preferences.getString("userName", "");
         String email = preferences.getString("email", "");
         tvName1.setText(name);
@@ -326,13 +326,15 @@ public class MainActivity extends AppCompatActivity
             captureImage();
          } else if (id == R.id.nav_galery) {
 
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            Uri uri = Uri.parse(String.valueOf(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
-            intent.setDataAndType(uri, "*/*");
-            startActivity(Intent.createChooser(intent, "Open folder"));
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(intent);
 
 
-//        } else if (id == R.id.nav_slideshow) {
+         } else if (id == R.id.nav_about) {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+
+
 //
 //        } else if (id == R.id.nav_manage) {
 //

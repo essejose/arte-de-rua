@@ -16,6 +16,7 @@ import com.essejose.artederua.model.Event;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -146,6 +147,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
     public  void update(List<Event> events){
         this.events = events;
+        Collections.reverse(this.events);
         notifyDataSetChanged();
     }
 }

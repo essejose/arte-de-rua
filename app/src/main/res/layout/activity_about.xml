@@ -4,7 +4,7 @@
     android:id="@+id/activity_splash_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_login"
+    android:background="@drawable/about"
 
     tools:context="com.essejose.artederua.AboutActivity">
 
@@ -41,7 +41,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp" />
 
-
+    <TextView
+        android:id="@+id/etDev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:background="@color/colorTransparent"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:text="@string/devApp"
+        android:layout_alignTop="@+id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
     <TextView
         android:id="@+id/editText4"
         android:layout_width="wrap_content"
@@ -52,9 +65,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
         android:textColor="#fff"
         android:textSize="18sp"
-        android:layout_alignTop="@+id/editText3"
+        android:layout_alignTop="@+id/etDev"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="30dp" />
 
 
 
@@ -89,7 +102,7 @@
         android:textSize="18sp"
         android:layout_alignTop="@+id/editText5"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="30dp" />
 
 
 
