@@ -41,6 +41,26 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <service
+            android:name=".Firebase.MeuFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT">
+
+                </action>
+            </intent-filter>
+        </service>
+
+
+        <service
+            android:name=".Firebase.MeuFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT">
+
+                </action>
+            </intent-filter>
+        </service>
+
+
         <activity
             android:name=".SplashScreen"
             android:theme="@style/splashScreenTheme">

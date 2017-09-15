@@ -133,7 +133,19 @@ public class FotoActivity extends AppCompatActivity {
         btnSalve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if (etitle.getText().toString().isEmpty()) {
+                    return;
+
+                } else if (etdescription.getText().toString().isEmpty()){
+                     return;
+
+            }else if( ivLogoEvent.getDrawable() == null){
+                return;
+            }else {
                 createEvent();
+            }
+
             }
         });
 

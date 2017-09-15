@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Arte De Rua</string>
+    <string name="BtnMap">Mapa</string>
+    <string name="about">Sobre</string>
+    <string name="action_logout">Deslogar</string>
+    <string name="action_settings">Configuraçõe</string>
+    <string name="app_sub_logo">Fotografe e compartilhe</string>
+    <string name="btnEdit">Editar</string>
+    <string name="btnShare">Compartilhar</string>
+    <string name="capture_photo">Capturar Foto</string>
+    <string name="continuar_conectado">Continuar conectado</string>
+    <string name="deletedEvent">Deletar</string>
+    <string name="devApp">Dev Jose Freire Pereira</string>
+    <string name="facebook_app_id">1463919503647427</string>
+    <string name="fb_login_protocol_scheme">fb1463919503647427</string>
+    <string name="loginBtn">Logar</string>
+    <string name="passwordHint">Password</string>
+    <string name="register_foto_activity_title">Registrar Foto</string>
+    <string name="salveEvent">Salvar</string>
+    <string name="see_album">Mapa de fotos</string>
+    <string name="see_more">Veja mais</string>
+    <string name="telDevLabel">toque para ligar</string>
+    <string name="title_activity_main">Lista de atividades</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="userDescriptionRegister">Descricao</string>
+    <string name="userTitleRegister">Titutlo</string>
+    <string name="usernameHint">Nome de usuario</string>
+    <string name="welcomeIntro">Bem vindo</string>
+    <string name="no_data_available">toque no botao e cadastre uma foto</string>
+</resources>

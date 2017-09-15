@@ -42,6 +42,8 @@ import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -66,11 +68,10 @@ public class MainActivity extends AppCompatActivity
 
     TextView tvName1;
     TextView tvName2;
+    TextView emptyView;
     private static final String TAG = "MyActivity";
-    final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Folder/";
 
-    ImageView ivTest;
-
+    private FirebaseAnalytics mFirebaseAnalitics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,9 @@ public class MainActivity extends AppCompatActivity
 //        newdir.mkdirs();
 //
 
+        mFirebaseAnalitics = FirebaseAnalytics.getInstance(this);
 
+        FirebaseMessaging.getInstance().subscribeToTopic("mob");
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -185,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvEvents.setLayoutManager(layoutManager);
 
-
+        emptyView = (TextView)  findViewById(R.id.empty_view);
         rvEvents.setAdapter(EAdpter);
 
         rvEvents.setHasFixedSize(true);
@@ -232,6 +235,17 @@ public class MainActivity extends AppCompatActivity
 //        events.add(fakeEvent);
 
         // Log.v("Cursor Object", String.valueOf(events.getAll()));
+
+
+
+        if (events.getAll().isEmpty()) {
+            rvEvents.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            rvEvents.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
 
         EAdpter.update(events.getAll());
 

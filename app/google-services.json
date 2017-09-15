@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "932281644805",
+    "firebase_url": "https://arte-de-rua.firebaseio.com",
+    "project_id": "arte-de-rua",
+    "storage_bucket": "arte-de-rua.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:932281644805:android:63b32a44f76a720b",
+        "android_client_info": {
+          "package_name": "com.essejose.artederua"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "932281644805-0a3hdtij1ebdmjtbv9ovs9fmg6hpc6mm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.essejose.artederua",
+            "certificate_hash": "da1d70b300def3e6757263f89303ca9fe55baae7"
+          }
+        },
+        {
+          "client_id": "932281644805-impiivffgdr6gksof10qrjmmcgjodm06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVbYp823M6ZX-11ZCrrevRhYHMH7g4PXI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "932281644805-impiivffgdr6gksof10qrjmmcgjodm06.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

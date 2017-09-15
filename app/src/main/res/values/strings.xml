@@ -4,7 +4,7 @@
     <string name="passwordHint">Password</string>
     <string name="loginBtn">Login</string>
     <string name="welcomeIntro">Welcome</string>
-    <string name="continuar_conectado">Continuar conectado</string>
+    <string name="continuar_conectado">Stay logged in</string>
     <string name="title_activity_main">Activity Feed</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -17,7 +17,7 @@
     <string name="action_logout">Logout</string>
     <string name="app_sub_logo">Fotografe e compartilhe</string>
     <string name="salveEvent">Save</string>
-    <string name="register_foto_activity_title">Register Foto</string>
+    <string name="register_foto_activity_title">Register photo</string>
     <string name="userTitleRegister">Title</string>
     <string name="userDescriptionRegister">Description</string>
     <string name="deletedEvent">Delete</string>
@@ -26,11 +26,12 @@
     <string name="BtnMap">Map</string>
     <string name="btnShare">Share</string>
     <string name="capture_photo">Capture photo</string>
-    <string name="see_album">Recents photos</string>
+    <string name="see_album">Map photos</string>
     <string name="about">About</string>
     <string name="see_more">See more</string>
     <string name="telDev">965886824</string>
     <string name="telDevLabel">tap and call me</string>
     <string name="devApp">Dev Jose Freire Pereira</string>
+    <string name="no_data_available">Tap in buttom and record photo</string>
 
 </resources>
