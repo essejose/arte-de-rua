@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 
         mFirebaseAnalitics = FirebaseAnalytics.getInstance(this);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("mob");
+        FirebaseMessaging.getInstance().subscribeToTopic("arte");
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.i("TAG", String.valueOf(AccessToken.getCurrentAccessToken()));
         if (AccessToken.getCurrentAccessToken() == null) {
-            Log.i("TAG", "'x");
+
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();

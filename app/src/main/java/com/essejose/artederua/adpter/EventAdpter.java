@@ -71,7 +71,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
                 .config(Bitmap.Config.RGB_565)
                 .fit()
                 .centerCrop()
-                .placeholder(android.R.drawable.ic_menu_camera)
+                .placeholder(R.drawable.placheholder_r)
                 .error(android.R.drawable.stat_notify_error)
                 .into(holder.ivLogoEvent);
 

@@ -193,7 +193,7 @@ public class LoginActivity extends AppCompatActivity {
 
             e.apply();
         }else{
-            Toast.makeText(this, "Nao e valido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.user_validation, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
 
-        Toast.makeText(this, "isConected", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "isConected", Toast.LENGTH_SHORT).show();
     }
 
 

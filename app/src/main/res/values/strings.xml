@@ -33,5 +33,6 @@
     <string name="telDevLabel">tap and call me</string>
     <string name="devApp">Dev Jose Freire Pereira</string>
     <string name="no_data_available">Tap in buttom and record photo</string>
-
+    <string name="user_location">You</string>
+    <string name="user_validation">not valid</string>
 </resources>

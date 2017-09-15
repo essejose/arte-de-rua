@@ -28,4 +28,6 @@
     <string name="usernameHint">Nome de usuario</string>
     <string name="welcomeIntro">Bem vindo</string>
     <string name="no_data_available">toque no botao e cadastre uma foto</string>
+    <string name="user_location">Você</string>
+    <string name="user_validation">Não e valido</string>
 </resources>

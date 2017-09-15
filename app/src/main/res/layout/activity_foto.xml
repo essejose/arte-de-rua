@@ -3,13 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <ImageView
         android:id="@+id/ivLogoEvent"
-        android:layout_width="319dp"
-        android:layout_height="250dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/ic_menu_camera"
+        android:layout_width="219dp"
+        android:layout_height="219dp"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tap_camera"
         android:scaleType="centerCrop" />
 
     <LinearLayout

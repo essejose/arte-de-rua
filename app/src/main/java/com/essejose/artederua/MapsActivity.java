@@ -1,10 +1,14 @@
 package com.essejose.artederua;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.essejose.artederua.dao.EventDAO;
 import com.essejose.artederua.model.Event;
@@ -27,6 +32,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Event event;
     EventDAO events  = new EventDAO(this);
+    private LocationManager locationManager;
+    private String provider;
+    public  Double latUser;
+    public  Double lngUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             markerPOI .position(new LatLng(eventM.getLatiude(),eventM.getLongitude()))
                     .title(eventM.getTitle())
                     .snippet(eventM.getDescripion())
-                    .icon(BitmapDescriptorFactory.fromBitmap(s));
+                    .icon(BitmapDescriptorFactory.fromBitmap(s))
+                    .draggable(true);
 
             mMap.addMarker(markerPOI );
 
@@ -81,6 +91,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // Get the location manager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the locatioin provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        Location location = locationManager.getLastKnownLocation(provider);
+
+        if (location != null) {
+            System.out.println("Provider " + provider + " has been selected.");
+            onLocationChanged(location);
+        } else {
+            Log.d("Localizacao", "nao diposnivel");
+        }
+
 
 
         if(getIntent().hasExtra("EVENT")){
@@ -104,7 +129,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .position(eventLng)
                     .title(event.getTitle())
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-                    .anchor(0.5f, 1));
+                    .anchor(0.5f, 1)
+                    .draggable(true));
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLng,18));
         }else{
@@ -113,6 +139,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
+        LatLng user = new LatLng(latUser, lngUser);
+        mMap.addMarker(new MarkerOptions()
+                .position(user)
+                .title(String.valueOf(R.string.user_location))
+                .anchor(0.5f, 1));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,18));
+
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker arg0) {
+                // TODO Auto-generated method stub
+                Log.d("System out", "onMarkerDragStart..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onMarkerDragEnd(Marker arg0) {
+                // TODO Auto-generated method stub
+                Log.d("System out", "onMarkerDragEnd..."+arg0.getPosition().latitude+"..."+arg0.getPosition().longitude);
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(arg0.getPosition()));
+            }
+
+            @Override
+            public void onMarkerDrag(Marker arg0) {
+                // TODO Auto-generated method stub
+                Log.i("System out", "onMarkerDrag...");
+            }
+        });
+    }
+
+
+    public void onLocationChanged(Location location) {
+        latUser = (location.getLatitude());
+        lngUser =  (location.getLongitude());
 
     }
+
 }
+
