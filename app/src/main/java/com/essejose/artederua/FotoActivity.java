@@ -3,15 +3,20 @@ package com.essejose.artederua;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +33,10 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -55,7 +64,7 @@ public class FotoActivity extends AppCompatActivity {
     private double lat;
     private double lng;
 
-    final String dir =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+ "/Arte/";
+    final String dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Arte/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +76,33 @@ public class FotoActivity extends AppCompatActivity {
         btnSalve = (Button) findViewById(R.id.btnSalve);
         btnDelete = (Button) findViewById(R.id.btnDelete);
 
-        etitle =  (EditText) findViewById(R.id.etitle);
-        etdescription =  (EditText) findViewById(R.id.etdescription);
+        etitle = (EditText) findViewById(R.id.etitle);
+        etdescription = (EditText) findViewById(R.id.etdescription);
 
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        location = locationManager.getLastKnownLocation(provider);
+
+
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
+            btnSalve.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE,android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION  }, 0);
+
+        }
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+            criteria = new Criteria();
+            provider = locationManager.getBestProvider(criteria, false);
+            location = locationManager.getLastKnownLocation(provider);
+        }
+
 
         if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
@@ -153,22 +180,54 @@ public class FotoActivity extends AppCompatActivity {
 
     }
 
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
 
-
-    private void  criarImage(){
-
-        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        imageFileName = timeStamp + ".jpg";
         storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
 
-        mCurrentPhotoPath = storageDir.getAbsolutePath() + "/" + imageFileName;
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
 
-        File file = new File(mCurrentPhotoPath);
-        Uri outputFileUri = Uri.fromFile(file);
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        startActivityForResult(cameraIntent, TAKE_PICTURE);
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+
+        return image;
+    }
+
+    private void  criarImage(){
+
+//        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        imageFileName = timeStamp + ".jpg";
+//        storageDir = Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES);
+//
+//        mCurrentPhotoPath = storageDir.getAbsolutePath() + "/" + imageFileName;
+//
+//        File file = new File(mCurrentPhotoPath);
+//        Uri outputFileUri = Uri.fromFile(file);
+
+        try {
+            Uri outputFileUri = FileProvider.getUriForFile(FotoActivity.this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    createImageFile());
+
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivityForResult(cameraIntent, TAKE_PICTURE);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
 
 
     }
@@ -189,23 +248,62 @@ public class FotoActivity extends AppCompatActivity {
         return cursor.getString(idx);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                btnSalve.setEnabled(true);
+            }
 
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        Log.i("TAG","Registro Deletado");
-
        if (requestCode == TAKE_PICTURE && resultCode== RESULT_OK && data != null) {
 
 
-           Bundle extras = data.getExtras();
-           Bitmap imageBitmap = (Bitmap) extras.get("data");
-           ivLogoEvent.setImageBitmap(imageBitmap);
+           Uri imageUri = Uri.parse(mCurrentPhotoPath);
+           File file = new File(imageUri.getPath());
 
-           Log.i("TAG","Registro Deletado");
-           File imgFile = new  File(mCurrentPhotoPath);
+           Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
+           // Chame este método pra obter a URI da imagem
+           Uri uri = getImageUri(getApplicationContext(), myBitmap);
+
+           // Em seguida chame este método para obter o caminho do arquivo
+          file = new File(getRealPathFromURI(uri));
+
+           mCurrentPhotoPath = String.valueOf(file.getPath());
+
+           Log.i("TAG", String.valueOf(mCurrentPhotoPath));
+           Picasso.with(FotoActivity.this)
+                   .load(file)
+                   .config(Bitmap.Config.RGB_565)
+                   .fit()
+                   .centerCrop()
+                   .error(android.R.drawable.stat_notify_error)
+                   .noFade()
+                   .into(ivLogoEvent);
+
+
+
+
+//           Bundle extras = data.getExtras();
+//           Bitmap imageBitmap = (Bitmap) extras.get("data");
+//           ivLogoEvent.setImageBitmap(imageBitmap);
+
+
+
+
+      //     File imgFile = new File(mCurrentPhotoPath);
+
+
+
+
+           /*
            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
            Bitmap photo = (Bitmap) data.getExtras().get("data");
 
@@ -227,6 +325,10 @@ public class FotoActivity extends AppCompatActivity {
                    .into(ivLogoEvent);
 
             }
+            */
+
+       }
+
     }
 
 

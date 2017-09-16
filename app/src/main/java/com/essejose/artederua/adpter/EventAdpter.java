@@ -61,11 +61,10 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
 
         Log.d("Vindo do banco ",events.get(position).getImage());
-
+        Log.d("Vindo do banco com file: ","file://"+ events.get(position).getImage());
 
         File file = new File(events.get(position).getImage());
         Log.d("Vindo do banco file ", String.valueOf(file));
-
 
 
 
