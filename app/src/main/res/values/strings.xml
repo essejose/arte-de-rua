@@ -35,4 +35,9 @@
     <string name="no_data_available">Tap in buttom and record photo</string>
     <string name="user_location">You</string>
     <string name="user_validation">not valid</string>
+    <string name="loginBtnRegister">Register</string>
+    <string name="user_validation_have">This user already exists</string>
+    <string name="BtnBtnRegister">Register</string>
+    <string name="user_validation_empty_password"> Field "password" empty </string>
+    <string name="user_validation_empty_user"> Field "user" empty </string>
 </resources>

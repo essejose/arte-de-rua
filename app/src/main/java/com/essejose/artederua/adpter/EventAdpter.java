@@ -2,6 +2,7 @@ package com.essejose.artederua.adpter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +65,7 @@ public class EventAdpter extends RecyclerView.Adapter<EventAdpter.EventViewHolde
 
         File file = new File(events.get(position).getImage());
         Log.d("Vindo do banco file ", String.valueOf(file));
+
 
 
 

@@ -150,6 +150,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -167,7 +174,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void register(View v){
+        startActivity(new Intent(this, UserActivity.class));
 
+
+    }
     public void logar (View v){
 
         if(isValidLogin()) {

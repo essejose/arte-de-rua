@@ -140,10 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         LatLng user = new LatLng(latUser, lngUser);
-        mMap.addMarker(new MarkerOptions()
-                .position(user)
-                .title(String.valueOf(R.string.user_location))
-                .anchor(0.5f, 1));
+
 
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,18));
 

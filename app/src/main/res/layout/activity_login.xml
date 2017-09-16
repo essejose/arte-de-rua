@@ -18,8 +18,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="120dp"
-        android:padding="60dp"
-        android:layout_weight="0.68">
+        android:layout_weight="0.68"
+        android:padding="60dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,12 +35,12 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:textColor="@color/colorLoginText"
                     android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/usernameHint"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/colorLoginText" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -51,12 +51,12 @@
                 android:layout_marginTop="4dp">
 
                 <EditText
-                    android:textColor="@color/colorLoginText"
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/passwordHint"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textColor="@color/colorLoginText" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -65,21 +65,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:textSize="12sp"
+                android:text="@string/continuar_conectado"
                 android:textColor="#fff"
-                android:text="@string/continuar_conectado" />
+                android:textSize="12sp" />
 
-            <Button
-                android:id="@+id/btn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="0.21"
-                android:onClick="logar"
-                android:background="@color/colorPrimary"
-                android:textColor="#fff"
-                android:text="@string/loginBtn" />
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorCadastro"
+                    android:onClick="logar"
+                    android:text="@string/loginBtn"
+                    android:textColor="#fff" />
+
+
+                <Button
+                    android:id="@+id/btnCadastrar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorRegister"
+                    android:onClick="register"
+                    android:text="@string/loginBtnRegister"
+
+                    android:textColor="#fff" />
+            </LinearLayout>
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/login_button"

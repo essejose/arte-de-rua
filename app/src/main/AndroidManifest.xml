@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -41,25 +41,16 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <service
-            android:name=".Firebase.MeuFirebaseInstanceIdService">
+        <service android:name=".Firebase.MeuFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT">
-
-                </action>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"></action>
             </intent-filter>
         </service>
-
-
-        <service
-            android:name=".Firebase.MeuFirebaseMessagingService">
+        <service android:name=".Firebase.MeuFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT">
-
-                </action>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
         </service>
-
 
         <activity
             android:name=".SplashScreen"
@@ -100,6 +91,7 @@
             </intent-filter>
         </activity>
         <activity
+
             android:name=".FotoActivity"
             android:label="@string/register_foto_activity_title"
             android:screenOrientation="portrait" />
@@ -121,7 +113,11 @@
         <activity
             android:name=".FullImageActivity"
             android:theme="@style/splashScreenTheme" />
-        <activity android:theme="@style/splashScreenTheme" android:name=".AboutActivity"/>
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/splashScreenTheme" />
+        <activity android:name=".UserActivity"    android:screenOrientation="portrait"  android:theme="@style/logintheme" />
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@
     <string name="facebook_app_id">1463919503647427</string>
     <string name="fb_login_protocol_scheme">fb1463919503647427</string>
     <string name="loginBtn">Logar</string>
-    <string name="passwordHint">Password</string>
+    <string name="passwordHint">Senha</string>
     <string name="register_foto_activity_title">Registrar Foto</string>
     <string name="salveEvent">Salvar</string>
     <string name="see_album">Mapa de fotos</string>
@@ -25,9 +25,15 @@
     <string name="title_activity_maps">Mapa</string>
     <string name="userDescriptionRegister">Descricao</string>
     <string name="userTitleRegister">Titutlo</string>
-    <string name="usernameHint">Nome de usuario</string>
-    <string name="welcomeIntro">Bem vindo</string>
+    <string name="usernameHint">Nome de usuário</string>
+    <string name="welcomeIntro">Bem-vindo</string>
     <string name="no_data_available">toque no botao e cadastre uma foto</string>
     <string name="user_location">Você</string>
     <string name="user_validation">Não e valido</string>
+    <string name="loginBtnRegister">Cadastro</string>
+    <string name="user_validation_have">Esse usuário ja existe</string>
+    <string name="BtnBtnRegister">Cadastrar</string>
+
+    <string name="user_validation_empty_password">Campo "Senha" vazio</string>
+    <string name="user_validation_empty_user">Campo "Usuário" vazio</string>
 </resources>

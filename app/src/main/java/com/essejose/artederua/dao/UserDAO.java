@@ -51,6 +51,50 @@ public class UserDAO {
         return "Já existe no banco";
     }
 
+    public String updade(User user){
+
+        long resultado;
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        // values.put( COLUNA_ID , event.get_id());
+        // values.put( COLUNA_ID_USER , event.get_id_user());
+        values.put( COLUNA_SENHA , user.getSenha());
+
+
+        resultado = db.update( TABELA_USER , values,"_id="+user.get_id(), null);
+        db.close();
+
+        if (resultado == - 1 ) {
+            Log.i("TAG","erro no updade");
+            return "Erro ao no updade" ;
+        } else {
+            Log.i("TAG","Sucesso");
+            return "Registro inserido com sucesso de evento" ;
+        }
+
+    };
+    public String delete(User user){
+
+        long resultado;
+
+        SQLiteDatabase db = banco.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        resultado = db.delete(TABELA_USER , "_id="+user.get_id(), null);
+        db.close();
+
+        if (resultado == - 1 ) {
+            Log.i("TAG","Erro ao Deletar");
+            return "Erro ao Deletar" ;
+        } else {
+            Log.i("TAG","Registro Deletado");
+            return "Registro Deletado" ;
+
+        }
+    }
+
     public List<User> getAll() {
         List<User> users = new LinkedList<>();
         String rawQuery = "SELECT * FROM "+TABELA_USER;
@@ -69,6 +113,8 @@ public class UserDAO {
             } while (cursor.moveToNext());
 
         }
+
+        db.close();
         return users;
     }
 
@@ -86,6 +132,7 @@ public class UserDAO {
         }
 
         if(c!=null) {
+            Log.d("TAG","Ux");
             c.close();
         }
         db.close();

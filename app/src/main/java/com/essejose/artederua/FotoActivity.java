@@ -43,7 +43,11 @@ public class FotoActivity extends AppCompatActivity {
 
     static int TAKE_PICTURE = 1;
     String mCurrentPhotoPath;
-
+    String imageFileName;
+    String timeStamp;
+    File storageDir;
+    Criteria criteria;
+    Location location;
 
     private LocationManager locationManager;
     private String provider;
@@ -66,13 +70,12 @@ public class FotoActivity extends AppCompatActivity {
         etitle =  (EditText) findViewById(R.id.etitle);
         etdescription =  (EditText) findViewById(R.id.etdescription);
 
-        // Get the location manager
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        // Define the criteria how to select the locatioin provider -> use
-        // default
-        Criteria criteria = new Criteria();
+
+        criteria = new Criteria();
         provider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(provider);
+        location = locationManager.getLastKnownLocation(provider);
 
         if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
@@ -98,7 +101,6 @@ public class FotoActivity extends AppCompatActivity {
             Picasso.with(this).load(file).config(Bitmap.Config.RGB_565)
                     .fit()
                     .centerCrop()
-                    .placeholder(android.R.drawable.ic_menu_camera)
                     .error(android.R.drawable.stat_notify_error)
                     .into(ivLogoEvent);
 
@@ -106,20 +108,6 @@ public class FotoActivity extends AppCompatActivity {
             btnDelete.setVisibility(View.VISIBLE);
 
         }
-
-
-        if (getIntent().hasExtra("EVENT")) {
-///                ivLogoEvent.setImageBitmap((Bitmap) extras.get("Foto"));
-
-//            Picasso.with(this)
-//                    .load((Uri) extras.get("uri"))
-//                    .resize(50, 50)
-//                    .centerCrop()
-//                    .into(ivLogoEvent);
-
-
-        }
-
 
         ivLogoEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,46 +153,13 @@ public class FotoActivity extends AppCompatActivity {
 
     }
 
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
 
-    }
-
-
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(this, "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
-    }
 
     private void  criarImage(){
 
-//        String file = dir+ DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString()+".jpg";
-//
-//        File newfile = new File(file);
-//
-//        try {
-//            newfile.createNewFile();
-//        } catch (IOException e) {}
-//
-//
-//
-//        Uri outputFileUri =  FileProvider.getUriForFile(FotoActivity.this,
-//                BuildConfig.APPLICATION_ID + ".provider",newfile);
-//
-//
-//        mCurrentPhotoPath = "file:" + newfile.getAbsolutePath();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-//        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-//        values.put("u", String.valueOf(outputFileUri));
-//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(cameraIntent, TAKE_PICTURE);
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = timeStamp + ".jpg";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        imageFileName = timeStamp + ".jpg";
+        storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
 
         mCurrentPhotoPath = storageDir.getAbsolutePath() + "/" + imageFileName;
@@ -238,11 +193,17 @@ public class FotoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
+        Log.i("TAG","Registro Deletado");
 
        if (requestCode == TAKE_PICTURE && resultCode== RESULT_OK && data != null) {
 
+
+           Bundle extras = data.getExtras();
+           Bitmap imageBitmap = (Bitmap) extras.get("data");
+           ivLogoEvent.setImageBitmap(imageBitmap);
+
+           Log.i("TAG","Registro Deletado");
            File imgFile = new  File(mCurrentPhotoPath);
 
            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());

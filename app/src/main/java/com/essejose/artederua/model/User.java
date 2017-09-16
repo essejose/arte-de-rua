@@ -5,6 +5,8 @@ package com.essejose.artederua.model;
  */
 
 public class User {
+
+
     public String getUsuario() {
         return usuario;
     }
@@ -22,8 +24,15 @@ public class User {
     }
 
 
+    public Integer get_id() {
+        return _id;
+    }
 
+    public void set_id(Integer _id) {
+        this._id = _id;
+    }
 
+    private Integer _id;
     private String usuario;
     private String senha;
 }
