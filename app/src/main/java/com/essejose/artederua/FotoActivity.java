@@ -80,7 +80,11 @@ public class FotoActivity extends AppCompatActivity {
         etdescription = (EditText) findViewById(R.id.etdescription);
 
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
+        location = locationManager.getLastKnownLocation(provider);
 
 
 
@@ -96,11 +100,7 @@ public class FotoActivity extends AppCompatActivity {
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            criteria = new Criteria();
-            provider = locationManager.getBestProvider(criteria, false);
-            location = locationManager.getLastKnownLocation(provider);
         }
 
 
@@ -267,7 +267,6 @@ public class FotoActivity extends AppCompatActivity {
 
            Uri imageUri = Uri.parse(mCurrentPhotoPath);
            File file = new File(imageUri.getPath());
-
            Bitmap myBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
            // Chame este método pra obter a URI da imagem
